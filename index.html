@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyGeeks</title>
+    <link rel="stylesheet" href="./style/style.css">
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyBAbDx866w5dNaM5wpkMoixcJt-Uq4uD9w",
+    authDomain: "webmobile-48ab0.firebaseapp.com",
+    databaseURL: "https://webmobile-48ab0.firebaseio.com",
+    projectId: "webmobile-48ab0",
+    storageBucket: "webmobile-48ab0.appspot.com",
+    messagingSenderId: "760801258293",
+    appId: "1:760801258293:web:96feb9945579adb0eaba7c",
+    measurementId: "G-3C0THWHELQ"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+</head>
+<body>
+
+
+    <div id="main">
+
+        <div class="buttons">
+        <input placeholder="enter git link" class="inputtext" type="text" id="todo-item">
+        <button class="myButton" onclick="todo()">Add-Item</button>
+        <button class="myButton" onclick="deleteAll()">Delete All</button>
+    </div>
+
+        <div class="design">
+            <h5 style="color:rgb(139, 135, 135);"><b>My ToDo List</b></h5>
+       
+            <ul id="list">
+            </ul>
+        </div>
+    
+
+    </div>
+    
+  
+
+
+
+
+    <script src="./js/app.js"></script>
+</body>
+</html>
