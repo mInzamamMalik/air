@@ -12,11 +12,7 @@ body{
 
 #main{
                 background-color:skyblue;
-                margin: 0 auto;
-                margin:0 auto;
-
-
-
+                margin:10px auto;
 }
 
 .myButton:active,
