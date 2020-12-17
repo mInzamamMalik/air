@@ -12,7 +12,7 @@ enterInput.style.display = "none";
 var addBtn = document.getElementById("addName");
 
 
-addBtn.addEventListener("click", function addId() {
+addBtn.addEventListener("click",  ()=> {
 
 
     var classId = document.getElementById("classId");
