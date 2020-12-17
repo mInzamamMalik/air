@@ -76,7 +76,7 @@ body{
 
 .design{
                
-width: 720px;
+width: 65%;
                
 background-color:white;
                
@@ -130,4 +130,8 @@ box-shadow: 0px 3px 24px -9px rgba(0,0,0,0.75);
 
 .img1:hover{
                 cursor: pointer;
+}
+#class-name
+{
+     text-transform: uppercase;
 }

@@ -36,14 +36,19 @@
 
     <div id="main">
 
+    
         <div class="buttons">
+        <input placeholder="enter class id" class="inputtext" type="text" id="classId">
         <input placeholder="enter git link" class="inputtext" type="text" id="todo-item">
-        <button class="myButton" onclick="todo()">Add-Item</button>
-        <button class="myButton" onclick="deleteAll()">Delete All</button>
+        <button id="itemBtn"   class="myButton" onclick="todo()">Add-Item</button>
+        <button id="deleteBtn" class="myButton" onclick="deleteAll()">Delete All</button>
+        <button class="myButton" id="addName">Add Class</button>
+
     </div>
 
         <div class="design">
-            <h5 style="color:rgb(139, 135, 135);"><b>Git Links/Text</b></h5>
+ 
+            <h5 id="class-name" style="color:rgb(139, 135, 135);"><b>Class Name</b></h5>
             <ul id="list">
             </ul>
         </div>
