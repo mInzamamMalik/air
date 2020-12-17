@@ -1,6 +1,6 @@
 var list = document.getElementById("list")
-
-
+var className = document.getElementById("class-name");
+var currentClass;
 // Hiding buttons later they will be shown after adding class
 var itemBtn = document.getElementById("itemBtn");
 var deleteBtn = document.getElementById("deleteBtn");
@@ -12,7 +12,7 @@ enterInput.style.display = "none";
 var addBtn = document.getElementById("addName");
 
 
-addBtn.addEventListener("click",  ()=> {
+addBtn.addEventListener("click", () => {
 
 
     var classId = document.getElementById("classId");
@@ -21,12 +21,12 @@ addBtn.addEventListener("click",  ()=> {
     itemBtn.style.display = "initial";
     deleteBtn.style.display = "initial";
     enterInput.style.display = "inline"
-
+    currentClass = classId.value;
 
     firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
         console.log(data.val());
 
-        var className = document.getElementById("class-name");
+        console.log(currentClass);
         className.innerHTML = classId.value;
 
 
@@ -56,8 +56,6 @@ addBtn.addEventListener("click",  ()=> {
         list.appendChild(li);
     })
 })
-
-
 
 
 
@@ -98,13 +96,13 @@ function editItem(e) {
     var newText = prompt("Enter New Text", e.parentNode.firstChild.nodeValue);
     e.parentNode.firstChild.nodeValue = newText;
 }
-
+console.log(currentClass);
 
 function deleteAll() {
     var password = prompt("Enter password to delete all");
-
+    console.log(currentClass);
     if (password === "delete123") {
-        firebase.database().ref("classWork").remove();
+        firebase.database().ref(`classWork/${currentClass}`).remove();
         list.innerHTML = " ";
 
     }
