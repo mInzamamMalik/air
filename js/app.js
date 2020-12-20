@@ -1,62 +1,139 @@
 var list = document.getElementById("list")
 var className = document.getElementById("class-name");
 var currentClass;
-// Hiding buttons later they will be shown after adding class
+var localStor;
+
+
+
+// Hiding fields
+var backBtn = document.getElementById("backBtn");
 var itemBtn = document.getElementById("itemBtn");
 var deleteBtn = document.getElementById("deleteBtn");
 var enterInput = document.getElementById("todo-item");
 itemBtn.style.display = "none";
 deleteBtn.style.display = "none";
 enterInput.style.display = "none";
+backBtn.style.display = "none";
+
 
 var addBtn = document.getElementById("addName");
+localStor = JSON.parse(localStorage.getItem("currentClass"));
 
 
 addBtn.addEventListener("click", () => {
 
-
     var classId = document.getElementById("classId");
-    classId.style.display = "none";
-    addBtn.style.display = "none";
-    itemBtn.style.display = "initial";
-    deleteBtn.style.display = "initial";
-    enterInput.style.display = "inline"
-    currentClass = classId.value;
 
-    firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
-        console.log(data.val());
+    if (classId.value === "" || classId.value === " ") {
+        alert("value cant be null")
+    }
+    else {
 
-        console.log(currentClass);
-        className.innerHTML = classId.value;
+        localStorage.setItem("currentClass", JSON.stringify(classId.value));
+        classId.style.display = "none";
+        addBtn.style.display = "none";
+        itemBtn.style.display = "initial";
+        deleteBtn.style.display = "initial";
+        enterInput.style.display = "inline"
+        backBtn.style.display = "initial";
+        currentClass = classId.value;
 
+        if (localStor !== false ) {
 
-        var li = document.createElement("li");
-        var liText = document.createTextNode(data.val().value);
-        li.appendChild(liText);
+            firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
+                console.log(data.val());
 
+                console.log(currentClass);
+                className.innerHTML = classId.value;
 
-
-
-        // Add Button Delete
-
-        var delBtn = document.createElement("img");
-        var delText = document.createTextNode("Delete");
-        delBtn.setAttribute("class", "img1");
-        delBtn.setAttribute("src", "./images/delete.png");
-        delBtn.setAttribute("onclick", "deleteItem(this)");
-        delBtn.setAttribute("id", data.val().key);
-
-        delBtn.appendChild(delText);
-        li.appendChild(delBtn);
+                var li = document.createElement("li");
+                var liText = document.createTextNode(data.val().value);
+                li.appendChild(liText);
 
 
 
-        // editBtn.appendChild(editText);
-        // li.appendChild(editBtn);
-        list.appendChild(li);
-    })
+
+                // Add Button Delete
+
+                var delBtn = document.createElement("img");
+                var delText = document.createTextNode("Delete");
+                delBtn.setAttribute("class", "img1");
+                delBtn.setAttribute("src", "./images/delete.png");
+                delBtn.setAttribute("onclick", "deleteItem(this)");
+                delBtn.setAttribute("id", data.val().key);
+
+                delBtn.appendChild(delText);
+                li.appendChild(delBtn);
+
+
+
+                // editBtn.appendChild(editText);
+                // li.appendChild(editBtn);
+                list.appendChild(li);
+
+            })
+        }
+        classId.value === " ";
+
+    }
 })
 
+
+
+    if (localStor) {
+        classId.style.display = "none";
+        addBtn.style.display = "none";
+        itemBtn.style.display = "initial";
+        deleteBtn.style.display = "initial";
+        enterInput.style.display = "inline"
+        backBtn.style.display = "initial";
+        firebase.database().ref(`classWork/${localStor}`).on("child_added", (data) => {
+            console.log(data.val());
+
+            className.innerHTML = localStor;
+            
+            var li = document.createElement("li");
+            var liText = document.createTextNode(data.val().value);
+            li.appendChild(liText);
+            var delBtn = document.createElement("img");
+            var delText = document.createTextNode("Delete");
+            delBtn.setAttribute("class", "img1");
+            delBtn.setAttribute("src", "./images/delete.png");
+            delBtn.setAttribute("onclick", "deleteItem(this)");
+            delBtn.setAttribute("id", data.val().key);
+
+            delBtn.appendChild(delText);
+            li.appendChild(delBtn);
+
+
+
+            // editBtn.appendChild(editText);
+            // li.appendChild(editBtn);
+            list.appendChild(li);
+        })
+    }
+
+
+
+const deleteCurrClass = () => {
+
+    var starCountRef = firebase.database().ref(`classWork/${localStor}`);
+    starCountRef.on('value', (snapshot) => {
+    });
+
+
+
+    console.log("its running")
+    itemBtn.style.display = "none";
+    deleteBtn.style.display = "none";
+    enterInput.style.display = "none";
+    backBtn.style.display = "none";
+    classId.style.display = "initial";
+    addBtn.style.display = "initial";
+    window.localStorage.removeItem('currentClass');
+    localStor = undefined;
+    list.innerHTML = " "
+}
 
 
 
@@ -64,7 +141,17 @@ function todo() {
     var classId = document.getElementById("classId").value;
     var todo_item = document.getElementById("todo-item")
     let database = firebase.database().ref(`classWork/${classId}`)
+
+    if (classId.value == "" || classId.value === " ") {
+        database = firebase.database().ref(`classWork/${localStor}`)
+    }
+    else {
+        database = firebase.database().ref(`classWork/${classId}`)
+
+    }
+
     let key = database.push().key;
+    console.log("its running")
 
     if (todo_item.value == "" || todo_item.value == " ") {
         alert("value cant be null");
@@ -83,7 +170,12 @@ function todo() {
 function deleteItem(e) {
     var password = prompt("Enter password to delete specific");
     if (password === "delete123") {
-        firebase.database().ref("classWork").child(e.id).remove();
+        if (currentClass) {
+            firebase.database().ref(`classWork/${currentClass}`).child(e.id).remove();
+        }
+        else {
+            firebase.database().ref(`classWork/${localStor}`).child(e.id).remove();
+        }
         e.parentNode.remove();
     }
     else {
@@ -102,8 +194,16 @@ function deleteAll() {
     var password = prompt("Enter password to delete all");
     console.log(currentClass);
     if (password === "delete123") {
-        firebase.database().ref(`classWork/${currentClass}`).remove();
+        if (currentClass) {
+            firebase.database().ref(`classWork/${currentClass}`).remove();
+        }
+        else {
+            firebase.database().ref(`classWork/${localStor}`).remove();
+
+        }
         list.innerHTML = " ";
+        window.localStorage.removeItem('currentClass');
+        localStor = undefined;
 
     }
     else {

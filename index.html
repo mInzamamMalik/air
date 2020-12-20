@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="./style/style.css">
     <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -36,7 +37,7 @@
 
     <div id="main">
 
-    
+       
         <div class="buttons">
         <input placeholder="Enter class id" class="inputtext" type="text" id="classId">
         <input placeholder="Enter any text or link" class="inputtext" type="text" id="todo-item">
@@ -47,8 +48,8 @@
     </div>
 
         <div class="design">
- 
-            <h5 id="class-name" style="color:rgb(139, 135, 135);"><b>Class Name</b></h5>
+            <img onclick="deleteCurrClass()" id="backBtn" class="back-img" src="images/back.png" alt="" width="20px">
+            <h5 id="class-name" style="display:inline;color:rgb(139, 135, 135);"><b>Class Name</b></h5>
             <ul id="list">
             </ul>
         </div>
