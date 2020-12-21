@@ -1,43 +1,52 @@
 var list = document.getElementById("list")
 var className = document.getElementById("class-name");
+var errorMessage = document.getElementById("error");
 var currentClass;
 var localStor;
 
 
 
+
 // Hiding fields
-var backBtn = document.getElementById("backBtn");
+// var backBtn = document.getElementById("backBtn");
 var itemBtn = document.getElementById("itemBtn");
 var deleteBtn = document.getElementById("deleteBtn");
 var enterInput = document.getElementById("todo-item");
-itemBtn.style.display = "none";
-deleteBtn.style.display = "none";
-enterInput.style.display = "none";
-backBtn.style.display = "none";
+enterInput.disabled = true;
+// backBtn.style.display = "none";
 
 
 var addBtn = document.getElementById("addName");
 localStor = JSON.parse(localStorage.getItem("currentClass"));
 
+const checkKeyPress = (key)=>{
+    if (key.keyCode === 13)
+    {
+        todo();
+    }
+    console.log("its running")
+  
+}
 
-addBtn.addEventListener("click", () => {
+window.addEventListener("keypress",checkKeyPress,false)
 
+
+
+
+
+    const getData = () => {
     var classId = document.getElementById("classId");
-
     if (classId.value === "" || classId.value === " ") {
         alert("value cant be null")
     }
     else {
 
         localStorage.setItem("currentClass", JSON.stringify(classId.value));
-        classId.style.display = "none";
-        addBtn.style.display = "none";
-        itemBtn.style.display = "initial";
-        deleteBtn.style.display = "initial";
-        enterInput.style.display = "inline"
-        backBtn.style.display = "initial";
+ 
+        enterInput.disabled = false;
+        errorMessage.style.display = "none";
         currentClass = classId.value;
-
+        list.innerHTML = " ";
         if (localStor !== false ) {
 
             firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
@@ -76,17 +85,18 @@ addBtn.addEventListener("click", () => {
         classId.value === " ";
 
     }
-})
+}
 
 
 
     if (localStor) {
-        classId.style.display = "none";
-        addBtn.style.display = "none";
+        classId.value = localStor;
+        enterInput.disabled = false;
+        errorMessage.style.display = "none";
         itemBtn.style.display = "initial";
         deleteBtn.style.display = "initial";
         enterInput.style.display = "inline"
-        backBtn.style.display = "initial";
+        // backBtn.style.display = "initial";
         firebase.database().ref(`classWork/${localStor}`).on("child_added", (data) => {
             console.log(data.val());
 
@@ -115,25 +125,19 @@ addBtn.addEventListener("click", () => {
 
 
 
-const deleteCurrClass = () => {
+// const deleteCurrClass = () => {
 
-    var starCountRef = firebase.database().ref(`classWork/${localStor}`);
-    starCountRef.on('value', (snapshot) => {
-    });
-
-
-
-    console.log("its running")
-    itemBtn.style.display = "none";
-    deleteBtn.style.display = "none";
-    enterInput.style.display = "none";
-    backBtn.style.display = "none";
-    classId.style.display = "initial";
-    addBtn.style.display = "initial";
-    window.localStorage.removeItem('currentClass');
-    localStor = undefined;
-    list.innerHTML = " "
-}
+//     console.log("its running")
+//     itemBtn.style.display = "none";
+//     deleteBtn.style.display = "none";
+//     enterInput.style.display = "none";
+//     backBtn.style.display = "none";
+//     classId.style.display = "initial";
+//     addBtn.style.display = "initial";
+//     window.localStorage.removeItem('currentClass');
+//     localStor = undefined;
+//     list.innerHTML = " "
+// }
 
 
 

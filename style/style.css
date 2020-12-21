@@ -12,8 +12,8 @@ body{
 
 #main{
                 background-color:skyblue;
-                margin:10px auto;
-                
+                margin: 18px auto;
+                clear: both;
 }
 
 .myButton:active,
@@ -68,6 +68,29 @@ body{
 	border: 1px solid #cdd8e0; 
 	outline: 0;
 }
+.inputtext1{
+        height:30px;
+        padding-left: 23px;
+        width: 150px;
+        font-size:12px;
+        color:#666666;
+        -webkit-border-top-left-radius: 25px;
+        -webkit-border-top-right-radius: 11px;
+        -webkit-border-bottom-right-radius: 20px;
+        -webkit-border-bottom-left-radius: 40px;
+        -moz-border-radius-topleft: 25px;
+        -moz-border-radius-topright: 11px;
+        -moz-border-radius-bottomright: 20px;
+        -moz-border-radius-bottomleft: 40px;
+        border-top-left-radius: 25px;
+        border-top-right-radius: 11px;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 40px;
+       
+}
+.class__input{
+        float:left;
+}
 
 
 
@@ -75,7 +98,7 @@ body{
 
         background-color:white;
         color:#666666;
-        margin: 0 auto;
+        margin: 50px auto;
         -webkit-border-top-left-radius: 25px;
         -webkit-border-top-right-radius: 11px;
         -webkit-border-bottom-right-radius: 20px;
@@ -121,6 +144,15 @@ body{
 .back-img:hover{
                 cursor: pointer;
 }
+small{
+        display:block;
+        color:red;
+}
+.heading{
+        padding: 0px;
+    margin: 4px;
+}
+
 @media (max-width:650px)
 {
         .design{

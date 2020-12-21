@@ -34,21 +34,23 @@
 </head>
 <body>
 
-
+    <div class="class__input">
+        <h3 class="heading">Class ID</h3>
+        <input placeholder="Enter class id" onchange="getData();" class="inputtext1" type="text" id="classId">
+        <small id="error">Enter class name to proceed</small>
+        </div>
     <div id="main">
-
-       
+    
+     
         <div class="buttons">
-        <input placeholder="Enter class id" class="inputtext" type="text" id="classId">
+  
         <input placeholder="Enter any text or link" class="inputtext" type="text" id="todo-item">
         <button id="itemBtn"   class="myButton" onclick="todo()">Add-Item</button>
         <button id="deleteBtn" class="myButton" onclick="deleteAll()">Delete All</button>
-        <button class="myButton" id="addName">Add Class</button>
 
     </div>
 
         <div class="design">
-            <img onclick="deleteCurrClass()" id="backBtn" class="back-img" src="images/back.png" alt="" width="20px">
             <h5 id="class-name" style="display:inline;color:rgb(139, 135, 135);"><b>Class Name</b></h5>
             <ul id="list">
             </ul>
