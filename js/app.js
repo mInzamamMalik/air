@@ -1,17 +1,21 @@
 var list = document.getElementById("list")
 var className = document.getElementById("class-name");
 var errorMessage = document.getElementById("error");
+var itemBtn = document.getElementById("itemBtn");
+var deleteBtn = document.getElementById("deleteBtn");
+var enterInput = document.getElementById("todo-item");
 var currentClass;
 var localStor;
 
 
 
 
-// Hiding fields
-// var backBtn = document.getElementById("backBtn");
-var itemBtn = document.getElementById("itemBtn");
-var deleteBtn = document.getElementById("deleteBtn");
-var enterInput = document.getElementById("todo-item");
+// Disabling fields
+itemBtn.disabled = true;
+deleteBtn.disabled = true;
+deleteBtn.style.backgroundColor = "#dddddd";
+itemBtn.style.backgroundColor = "#dddddd";
+
 enterInput.disabled = true;
 // backBtn.style.display = "none";
 
@@ -19,22 +23,23 @@ enterInput.disabled = true;
 var addBtn = document.getElementById("addName");
 localStor = JSON.parse(localStorage.getItem("currentClass"));
 
-const checkKeyPress = (key)=>{
-    if (key.keyCode === 13)
-    {
+const checkKeyPress = (key) => {
+
+
+    if (key.keyCode === 13) {
         todo();
     }
-    console.log("its running")
-  
+
+
 }
 
-window.addEventListener("keypress",checkKeyPress,false)
+window.addEventListener("keypress", checkKeyPress, false)
 
 
 
 
 
-    const getData = () => {
+const getData = () => {
     var classId = document.getElementById("classId");
     if (classId.value === "" || classId.value === " ") {
         alert("value cant be null")
@@ -42,12 +47,15 @@ window.addEventListener("keypress",checkKeyPress,false)
     else {
 
         localStorage.setItem("currentClass", JSON.stringify(classId.value));
- 
+        itemBtn.disabled = false;
+        deleteBtn.disabled = false;
         enterInput.disabled = false;
+        deleteBtn.style.backgroundColor = "white";
+        itemBtn.style.backgroundColor = "white";
         errorMessage.style.display = "none";
         currentClass = classId.value;
         list.innerHTML = " ";
-        if (localStor !== false ) {
+        if (localStor !== false) {
 
             firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
                 console.log(data.val());
@@ -89,39 +97,41 @@ window.addEventListener("keypress",checkKeyPress,false)
 
 
 
-    if (localStor) {
-        classId.value = localStor;
-        enterInput.disabled = false;
-        errorMessage.style.display = "none";
-        itemBtn.style.display = "initial";
-        deleteBtn.style.display = "initial";
-        enterInput.style.display = "inline"
-        // backBtn.style.display = "initial";
-        firebase.database().ref(`classWork/${localStor}`).on("child_added", (data) => {
-            console.log(data.val());
+if (localStor) {
+    classId.value = localStor;
+    itemBtn.disabled = false;
+    deleteBtn.disabled = false;
+    enterInput.disabled = false;
+    errorMessage.style.display = "none";
 
-            className.innerHTML = localStor;
-            
-            var li = document.createElement("li");
-            var liText = document.createTextNode(data.val().value);
-            li.appendChild(liText);
-            var delBtn = document.createElement("img");
-            var delText = document.createTextNode("Delete");
-            delBtn.setAttribute("class", "img1");
-            delBtn.setAttribute("src", "./images/delete.png");
-            delBtn.setAttribute("onclick", "deleteItem(this)");
-            delBtn.setAttribute("id", data.val().key);
+    deleteBtn.style.backgroundColor = "white";
+    itemBtn.style.backgroundColor = "white";
+    // backBtn.style.display = "initial";
+    firebase.database().ref(`classWork/${localStor}`).on("child_added", (data) => {
+        console.log(data.val());
 
-            delBtn.appendChild(delText);
-            li.appendChild(delBtn);
+        className.innerHTML = localStor;
+
+        var li = document.createElement("li");
+        var liText = document.createTextNode(data.val().value);
+        li.appendChild(liText);
+        var delBtn = document.createElement("img");
+        var delText = document.createTextNode("Delete");
+        delBtn.setAttribute("class", "img1");
+        delBtn.setAttribute("src", "./images/delete.png");
+        delBtn.setAttribute("onclick", "deleteItem(this)");
+        delBtn.setAttribute("id", data.val().key);
+
+        delBtn.appendChild(delText);
+        li.appendChild(delBtn);
 
 
 
-            // editBtn.appendChild(editText);
-            // li.appendChild(editBtn);
-            list.appendChild(li);
-        })
-    }
+        // editBtn.appendChild(editText);
+        // li.appendChild(editBtn);
+        list.appendChild(li);
+    })
+}
 
 
 
