@@ -4,6 +4,7 @@ var errorMessage = document.getElementById("error");
 var itemBtn = document.getElementById("itemBtn");
 var deleteBtn = document.getElementById("deleteBtn");
 var enterInput = document.getElementById("todo-item");
+var classId = document.getElementById("classId");
 var currentClass;
 var localStor;
 
@@ -15,7 +16,6 @@ itemBtn.disabled = true;
 deleteBtn.disabled = true;
 deleteBtn.style.backgroundColor = "#dddddd";
 itemBtn.style.backgroundColor = "#dddddd";
-
 enterInput.disabled = true;
 // backBtn.style.display = "none";
 
@@ -24,23 +24,35 @@ var addBtn = document.getElementById("addName");
 localStor = JSON.parse(localStorage.getItem("currentClass"));
 
 const checkKeyPress = (key) => {
-
-
-    if (key.keyCode === 13) {
-        todo();
-    }
-
-
+    
+if (key.keyCode === 13)
+{
+  
+    getData();
+}
 }
 
-window.addEventListener("keypress", checkKeyPress, false)
+const checkKey = (key) => {
+    
+    if (key.keyCode === 13)
+    {
+
+        todo();
+    
+      
+    }
+    }
+
+classId.addEventListener("keypress", checkKeyPress, false)
+enterInput.addEventListener("keypress", checkKey, false)
+
 
 
 
 
 
 const getData = () => {
-    var classId = document.getElementById("classId");
+  
     if (classId.value === "" || classId.value === " ") {
         alert("value cant be null")
     }
@@ -55,14 +67,14 @@ const getData = () => {
         errorMessage.style.display = "none";
         currentClass = classId.value;
         list.innerHTML = " ";
+     
         if (localStor !== false) {
 
             firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
-                console.log(data.val());
+                
 
                 console.log(currentClass);
                 className.innerHTML = classId.value;
-
                 var li = document.createElement("li");
                 var liText = document.createTextNode(data.val().value);
                 li.appendChild(liText);
@@ -90,9 +102,8 @@ const getData = () => {
 
             })
         }
-        classId.value === " ";
-
     }
+    enterInput.focus();
 }
 
 
@@ -103,12 +114,12 @@ if (localStor) {
     deleteBtn.disabled = false;
     enterInput.disabled = false;
     errorMessage.style.display = "none";
-
+    enterInput.focus();
     deleteBtn.style.backgroundColor = "white";
     itemBtn.style.backgroundColor = "white";
     // backBtn.style.display = "initial";
     firebase.database().ref(`classWork/${localStor}`).on("child_added", (data) => {
-        console.log(data.val());
+  
 
         className.innerHTML = localStor;
 
