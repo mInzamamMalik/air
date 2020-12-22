@@ -46,7 +46,7 @@ body{
 .inputtext{
         height:30px;
         padding-left: 23px;
-        width: 230px;
+        width: 200px;
         font-size:12px;
         color:#666666;
         -webkit-border-top-left-radius: 25px;
@@ -87,9 +87,6 @@ body{
         border-bottom-right-radius: 20px;
         border-bottom-left-radius: 40px;
        
-}
-.class__input{
-        float:left;
 }
 
 
@@ -156,8 +153,12 @@ small{
 @media (max-width:650px)
 {
         .design{
-                        width:80%
+                        width: 95%;
         }
+        .class__input{
+                clear:both;
+        }
+        
 }
 @media (min-width:650px)
 {
@@ -165,4 +166,8 @@ small{
                 width:65%;
 
         }
+        .class__input{
+                float:left;
+        }
+        
 }
