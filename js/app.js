@@ -27,8 +27,8 @@ const checkKeyPress = (key) => {
     
 if (key.keyCode === 13)
 {
-  
     getData();
+    console.log("fault in this");
 }
 }
 
@@ -43,7 +43,7 @@ const checkKey = (key) => {
     }
     }
 
-classId.addEventListener("keypress", checkKeyPress, false)
+classId.addEventListener("focus", checkKeyPress, false)
 enterInput.addEventListener("keypress", checkKey, false)
 
 
@@ -53,11 +53,6 @@ enterInput.addEventListener("keypress", checkKey, false)
 
 const getData = () => {
   
-    if (classId.value === "" || classId.value === " ") {
-        alert("value cant be null")
-    }
-    else {
-
         localStorage.setItem("currentClass", JSON.stringify(classId.value));
         itemBtn.disabled = false;
         deleteBtn.disabled = false;
@@ -102,7 +97,7 @@ const getData = () => {
 
             })
         }
-    }
+
     enterInput.focus();
 }
 
@@ -163,6 +158,9 @@ if (localStor) {
 
 
 function todo() {
+
+
+
     var classId = document.getElementById("classId").value;
     var todo_item = document.getElementById("todo-item")
     let database = firebase.database().ref(`classWork/${classId}`)
