@@ -24,24 +24,22 @@ var addBtn = document.getElementById("addName");
 localStor = JSON.parse(localStorage.getItem("currentClass"));
 
 const checkKeyPress = (key) => {
-    
-if (key.keyCode === 13)
-{
-    getData();
-    console.log("fault in this");
-}
+
+    if (key.keyCode === 13) {
+        getData();
+        console.log("fault in this");
+    }
 }
 
 const checkKey = (key) => {
-    
-    if (key.keyCode === 13)
-    {
+
+    if (key.keyCode === 13) {
 
         todo();
-    
-      
+
+
     }
-    }
+}
 
 classId.addEventListener("focus", checkKeyPress, false)
 enterInput.addEventListener("keypress", checkKey, false)
@@ -52,51 +50,50 @@ enterInput.addEventListener("keypress", checkKey, false)
 
 
 const getData = () => {
-  
-        localStorage.setItem("currentClass", JSON.stringify(classId.value));
-        itemBtn.disabled = false;
-        deleteBtn.disabled = false;
-        enterInput.disabled = false;
-        deleteBtn.style.backgroundColor = "white";
-        itemBtn.style.backgroundColor = "white";
-        errorMessage.style.display = "none";
-        currentClass = classId.value;
-        list.innerHTML = " ";
-     
-        if (localStor !== false) {
 
-            firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
-                
+    localStorage.setItem("currentClass", JSON.stringify(classId.value));
+    itemBtn.disabled = false;
+    deleteBtn.disabled = false;
+    enterInput.disabled = false;
+    deleteBtn.style.backgroundColor = "white";
+    itemBtn.style.backgroundColor = "white";
+    errorMessage.style.display = "none";
+    currentClass = classId.value;
+    list.innerHTML = " ";
 
-                console.log(currentClass);
-                className.innerHTML = classId.value;
-                var li = document.createElement("li");
-                var liText = document.createTextNode(data.val().value);
-                li.appendChild(liText);
+    if (localStor !== false) {
 
+        firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
+
+
+            console.log(currentClass);
+            className.innerHTML = classId.value;
+            var li = document.createElement("li");
+            li.innerHTML = data.val().value
 
 
 
-                // Add Button Delete
 
-                var delBtn = document.createElement("img");
-                var delText = document.createTextNode("Delete");
-                delBtn.setAttribute("class", "img1");
-                delBtn.setAttribute("src", "./images/delete.png");
-                delBtn.setAttribute("onclick", "deleteItem(this)");
-                delBtn.setAttribute("id", data.val().key);
+            // Add Button Delete
 
-                delBtn.appendChild(delText);
-                li.appendChild(delBtn);
+            var delBtn = document.createElement("img");
+            var delText = document.createTextNode("Delete");
+            delBtn.setAttribute("class", "img1");
+            delBtn.setAttribute("src", "./images/delete.png");
+            delBtn.setAttribute("onclick", "deleteItem(this)");
+            delBtn.setAttribute("id", data.val().key);
+
+            delBtn.appendChild(delText);
+            li.appendChild(delBtn);
 
 
 
-                // editBtn.appendChild(editText);
-                // li.appendChild(editBtn);
-                list.appendChild(li);
+            // editBtn.appendChild(editText);
+            // li.appendChild(editBtn);
+            list.appendChild(li);
 
-            })
-        }
+        })
+    }
 
     enterInput.focus();
 }
@@ -114,13 +111,12 @@ if (localStor) {
     itemBtn.style.backgroundColor = "white";
     // backBtn.style.display = "initial";
     firebase.database().ref(`classWork/${localStor}`).on("child_added", (data) => {
-  
+
 
         className.innerHTML = localStor;
 
         var li = document.createElement("li");
-        var liText = document.createTextNode(data.val().value);
-        li.appendChild(liText);
+        li.innerHTML = data.val().value;
         var delBtn = document.createElement("img");
         var delText = document.createTextNode("Delete");
         delBtn.setAttribute("class", "img1");
@@ -160,12 +156,11 @@ if (localStor) {
 function todo() {
 
 
-
     var classId = document.getElementById("classId").value;
-    var todo_item = document.getElementById("todo-item")
+    var text = document.getElementById("todo-item").value
     let database = firebase.database().ref(`classWork/${classId}`)
 
-    if (classId.value == "" || classId.value === " ") {
+    if (text == "" || text === " ") {
         database = firebase.database().ref(`classWork/${localStor}`)
     }
     else {
@@ -173,20 +168,27 @@ function todo() {
 
     }
 
+    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    var text1 = text.replace(exp, '<a  target="_blank" href="$1">$1</a>');
+
+
+    var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    var replaced = text1.replace(exp2, '$1<a target="_blank" href="http://$2">$2</a>');
+
     let key = database.push().key;
     console.log("its running")
 
-    if (todo_item.value == "" || todo_item.value == " ") {
+    if (text == "" || text == " ") {
         alert("value cant be null");
     }
     else {
         var data = {
-            value: todo_item.value,
+            value: replaced,
             key: key,
         };
         database.child(key).set(data);
-        todo_item.value = "";
     }
+       document.getElementById("todo-item").value = " ";
 }
 
 
@@ -234,3 +236,13 @@ function deleteAll() {
     }
 
 }
+
+
+
+// dbip.getVisitorInfo().then(function (info) {
+//     if (info.isEuMember) {
+//         // Only show useful warning to visitors from EU member countries
+//         //   showCookieConsent();
+//     }
+//     console.log(info)
+// });
