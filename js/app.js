@@ -227,7 +227,6 @@ function deleteAll() {
 
         }
         list.innerHTML = " ";
-        window.localStorage.removeItem('currentClass');
         localStor = undefined;
 
     }
