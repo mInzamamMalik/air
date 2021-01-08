@@ -12,10 +12,6 @@ server.get("/getIp",(req,res)=>{
         console.log("ip is==> "+ip);
     })
 
-
-
-
-
 server.listen(PORT,()=>{
     console.log("Server is running on port: "+PORT);
 })

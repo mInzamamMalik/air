@@ -28,7 +28,7 @@ const checkKeyPress = (key) => {
 
     if (key.keyCode === 13) {
         getData();
-        console.log("fault in this");
+        // console.log("fault in this");
     }
 }
 
@@ -52,7 +52,7 @@ enterInput.addEventListener("keypress", checkKey, false)
 
 const getData = () => {
 
-    localStorage.setItem("currentClass", JSON.stringify(classId.value));
+    localStorage.setItem("currentClass", JSON.stringify(classId.value.toUpperCase()));
     itemBtn.disabled = false;
     deleteBtn.disabled = false;
     enterInput.disabled = false;
@@ -68,7 +68,7 @@ const getData = () => {
 
 
             console.log(currentClass);
-            className.innerHTML = classId.value;
+            className.innerHTML = classId.value.toUpperCase();
             var li = document.createElement("li");
             li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}`
 
@@ -112,11 +112,10 @@ if (localStor) {
     deleteBtn.style.backgroundColor = "white";
     itemBtn.style.backgroundColor = "white";
     // backBtn.style.display = "initial";
-    firebase.database().ref(`classWork/${localStor}`).on("child_added", (data) => {
+    firebase.database().ref(`classWork/${localStor.toUpperCase()}`).on("child_added", (data) => {
 
 
-        className.innerHTML = localStor;
-
+        className.innerHTML = localStor.toUpperCase();
         var li = document.createElement("li");
         li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}`
         var delBtn = document.createElement("img");
@@ -128,8 +127,6 @@ if (localStor) {
 
         delBtn.appendChild(delText);
         li.appendChild(delBtn);
-
-
 
         // editBtn.appendChild(editText);
         // li.appendChild(editBtn);
@@ -157,7 +154,8 @@ if (localStor) {
 
 function todo() {
 
-    const Url = "https://studygeeks.herokuapp.com/";
+    const Url = "https://studygeeks.herokuapp.com";
+    // const Url = "http://localhost:5000";
 
     const Http = new XMLHttpRequest();
     Http.open("GET", Url + "/getIp");
@@ -165,8 +163,8 @@ function todo() {
     Http.onreadystatechange = (e) => {
         if (Http.readyState === 4) {
             userIp = (Http.responseText);
-            var classId = document.getElementById("classId").value;
-            var text = document.getElementById("todo-item").value
+            var classId = document.getElementById("classId").value.toUpperCase();
+            var text = document.getElementById("todo-item").value;
             let database = firebase.database().ref(`classWork/${classId}`)
         
             if (text == "" || text === " ") {
@@ -180,12 +178,12 @@ function todo() {
             var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
             var text1 = text.replace(exp, '<a  target="_blank" href="$1">$1</a>');
         
-        
+    
             var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
             var replaced = text1.replace(exp2, '$1<a target="_blank" href="http://$2">$2</a>');
         
             let key = database.push().key;
-            console.log("its running")
+            // console.log("its running")
         
             if (text == "" || text == " ") {
                 alert("value cant be null");
@@ -201,10 +199,6 @@ function todo() {
             document.getElementById("todo-item").value = " ";
         }
     }
-
-
-
- 
 }
 
 
@@ -229,11 +223,11 @@ function editItem(e) {
     var newText = prompt("Enter New Text", e.parentNode.firstChild.nodeValue);
     e.parentNode.firstChild.nodeValue = newText;
 }
-console.log(currentClass);
+// console.log(currentClass);
 
 function deleteAll() {
     var password = prompt("Enter password to delete all");
-    console.log(currentClass);
+    // console.log(currentClass);
     if (password === "delete123") {
         if (currentClass) {
             firebase.database().ref(`classWork/${currentClass}`).remove();
