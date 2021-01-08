@@ -1,3 +1,4 @@
+
 var list = document.getElementById("list")
 var className = document.getElementById("class-name");
 var errorMessage = document.getElementById("error");
@@ -7,7 +8,7 @@ var enterInput = document.getElementById("todo-item");
 var classId = document.getElementById("classId");
 var currentClass;
 var localStor;
-
+var userIp = "";
 
 
 
@@ -69,7 +70,8 @@ const getData = () => {
             console.log(currentClass);
             className.innerHTML = classId.value;
             var li = document.createElement("li");
-            li.innerHTML = data.val().value
+            li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}`
+
 
 
 
@@ -116,7 +118,7 @@ if (localStor) {
         className.innerHTML = localStor;
 
         var li = document.createElement("li");
-        li.innerHTML = data.val().value;
+        li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}`
         var delBtn = document.createElement("img");
         var delText = document.createTextNode("Delete");
         delBtn.setAttribute("class", "img1");
@@ -155,40 +157,54 @@ if (localStor) {
 
 function todo() {
 
+    const Url = "http://localhost:5000";
 
-    var classId = document.getElementById("classId").value;
-    var text = document.getElementById("todo-item").value
-    let database = firebase.database().ref(`classWork/${classId}`)
-
-    if (text == "" || text === " ") {
-        database = firebase.database().ref(`classWork/${localStor}`)
+    const Http = new XMLHttpRequest();
+    Http.open("GET", Url + "/getIp");
+    Http.send();
+    Http.onreadystatechange = (e) => {
+        if (Http.readyState === 4) {
+            userIp = (Http.responseText);
+            var classId = document.getElementById("classId").value;
+            var text = document.getElementById("todo-item").value
+            let database = firebase.database().ref(`classWork/${classId}`)
+        
+            if (text == "" || text === " ") {
+                database = firebase.database().ref(`classWork/${localStor}`)
+            }
+            else {
+                database = firebase.database().ref(`classWork/${classId}`)
+        
+            }
+        
+            var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+            var text1 = text.replace(exp, '<a  target="_blank" href="$1">$1</a>');
+        
+        
+            var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+            var replaced = text1.replace(exp2, '$1<a target="_blank" href="http://$2">$2</a>');
+        
+            let key = database.push().key;
+            console.log("its running")
+        
+            if (text == "" || text == " ") {
+                alert("value cant be null");
+            }
+            else {
+                var data = {
+                    value: replaced,
+                    key: key,
+                    userIp: userIp,
+                };
+                database.child(key).set(data);
+            }
+            document.getElementById("todo-item").value = " ";
+        }
     }
-    else {
-        database = firebase.database().ref(`classWork/${classId}`)
-
-    }
-
-    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-    var text1 = text.replace(exp, '<a  target="_blank" href="$1">$1</a>');
 
 
-    var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-    var replaced = text1.replace(exp2, '$1<a target="_blank" href="http://$2">$2</a>');
 
-    let key = database.push().key;
-    console.log("its running")
-
-    if (text == "" || text == " ") {
-        alert("value cant be null");
-    }
-    else {
-        var data = {
-            value: replaced,
-            key: key,
-        };
-        database.child(key).set(data);
-    }
-       document.getElementById("todo-item").value = " ";
+ 
 }
 
 

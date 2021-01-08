@@ -146,6 +146,7 @@ margin-top: 10px;
         padding-left:10px;
         /* transform: rotate(-180deg); */
         transform: rotate(180deg);
+        position: relative;
 }
 
 .img1{
@@ -166,8 +167,12 @@ margin-top: 10px;
                 cursor: pointer;
 }
 small{
-        display:block;
-        color:red;
+        /* display:block; */
+        /* color:red; */
+        /* float: left; */
+        position: absolute;
+        /* right: 41%; */
+        left: 6px;
 }
 .heading{
         padding: 0px;
