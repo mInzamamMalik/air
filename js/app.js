@@ -162,7 +162,10 @@ function todo() {
     Http.send();
     Http.onreadystatechange = (e) => {
         if (Http.readyState === 4) {
-            userIp = (Http.responseText);
+
+            userIp = Http.responseText;
+            slicingIp = userIp.lastIndexOf(":");
+            userIp = userIp.slice(slicingIp+1,userIp.length);
             var classId = document.getElementById("classId").value.toUpperCase();
             var text = document.getElementById("todo-item").value;
             let database = firebase.database().ref(`classWork/${classId}`)
