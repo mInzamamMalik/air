@@ -157,7 +157,7 @@ if (localStor) {
 
 function todo() {
 
-    const Url = "http://localhost:5000";
+    const Url = "https://studygeeks.herokuapp.com/";
 
     const Http = new XMLHttpRequest();
     Http.open("GET", Url + "/getIp");
