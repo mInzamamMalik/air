@@ -52,7 +52,7 @@ enterInput.addEventListener("keypress", checkKey, false)
 
 const getData = () => {
 
-    localStorage.setItem("currentClass", JSON.stringify(classId.value.toUpperCase()));
+    localStorage.setItem("currentClass", JSON.stringify(classId.value));
     itemBtn.disabled = false;
     deleteBtn.disabled = false;
     enterInput.disabled = false;
@@ -68,7 +68,7 @@ const getData = () => {
 
 
             console.log(currentClass);
-            className.innerHTML = classId.value.toUpperCase();
+            className.innerHTML = classId.value;
             var li = document.createElement("li");
             li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}`
 
@@ -112,10 +112,10 @@ if (localStor) {
     deleteBtn.style.backgroundColor = "white";
     itemBtn.style.backgroundColor = "white";
     // backBtn.style.display = "initial";
-    firebase.database().ref(`classWork/${localStor.toUpperCase()}`).on("child_added", (data) => {
+    firebase.database().ref(`classWork/${localStor}`).on("child_added", (data) => {
 
 
-        className.innerHTML = localStor.toUpperCase();
+        className.innerHTML = localStor;
         var li = document.createElement("li");
         li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}`
         var delBtn = document.createElement("img");
@@ -166,7 +166,7 @@ function todo() {
             userIp = Http.responseText;
             slicingIp = userIp.lastIndexOf(":");
             userIp = userIp.slice(slicingIp+1,userIp.length);
-            var classId = document.getElementById("classId").value.toUpperCase();
+            var classId = document.getElementById("classId").value;
             var text = document.getElementById("todo-item").value;
             let database = firebase.database().ref(`classWork/${classId}`)
         

@@ -182,7 +182,7 @@ margin-top: 10px;
         .class__input{
                 clear:both;
         }
-        
+ 
 }
 @media (min-width:650px)
 {
@@ -193,9 +193,9 @@ margin-top: 10px;
         .class__input{
                 float:left;
         }
+        .userIp{
+                position: absolute;
+                left:6px;
+        }
         
-}
-.userIp{
-        position: absolute;
-        left:6px;
 }
