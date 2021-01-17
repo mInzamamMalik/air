@@ -78,7 +78,7 @@ const getData = () => {
 
         firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
 
-
+            console.log("postTime is ==>",data.postTime);
             console.log(currentClass);
             className.innerHTML = classId.value;
             var li = document.createElement("li");
@@ -126,10 +126,14 @@ if (localStor) {
     // backBtn.style.display = "initial";
     firebase.database().ref(`classWork/${localStor}`).on("child_added", (data) => {
 
-
+        console.log("postTime is ==>",data.val().postTime);
+        var postTime = new Date(data.val().postTime);
+        console.log(currentClass);
         className.innerHTML = localStor;
         var li = document.createElement("li");
-        li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}`
+        li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}
+        <small class="postDate">${moment(postTime).fromNow()}</small>
+        `
         var delBtn = document.createElement("img");
         var delText = document.createTextNode("Delete");
         delBtn.setAttribute("class", "img1");
@@ -165,7 +169,8 @@ if (localStor) {
 
 
 function todo() {
-
+            
+        
             var userIp = localStorage.getItem("userIp");
             slicingIp = userIp.lastIndexOf(":");
             userIp = userIp.slice(slicingIp+1,userIp.length);
@@ -178,9 +183,8 @@ function todo() {
             }
             else {
                 database = firebase.database().ref(`classWork/${classId}`)
-        
             }
-        
+
             var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
             var text1 = text.replace(exp, '<a  target="_blank" href="$1">$1</a>');
             var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
@@ -190,19 +194,18 @@ function todo() {
             // console.log("its running")
         
             if (text == "" || text == " ") {
-                alert("value cant be null");
+                    console.log("value cant be null");
             }
             else {
                 var data = {
                     value: replaced,
                     key: key,
                     userIp: userIp,
+                    postTime: new Date().getTime(),
                 };
                 database.child(key).set(data);
             }
             document.getElementById("todo-item").value = " ";
-        
-    
 }
 
 
