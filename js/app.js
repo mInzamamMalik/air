@@ -47,7 +47,7 @@ enterInput.addEventListener("keypress", checkKey, false)
 
 
 
-const getIp = ()=>{
+const getIp = () => {
     const Url = "https://studygeeks.herokuapp.com";
     // const Url = "http://localhost:5000";
 
@@ -56,9 +56,9 @@ const getIp = ()=>{
     Http.send();
     Http.onreadystatechange = (e) => {
         if (Http.readyState === 4) {
-          localStorage.setItem("userIp", Http.responseText)  
+            localStorage.setItem("userIp", Http.responseText)
         }
-}
+    }
 }
 
 
@@ -77,12 +77,14 @@ const getData = () => {
     if (localStor !== false) {
 
         firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
-
-            console.log("postTime is ==>",data.postTime);
+            var postTime = new Date(data.val().postTime);
+            console.log("postTime is ==>", postTime);
             console.log(currentClass);
             className.innerHTML = classId.value;
             var li = document.createElement("li");
-            li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}`
+            li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}
+            <small class="postDate">${moment(postTime).fromNow()}</small>`
+
 
 
 
@@ -126,14 +128,14 @@ if (localStor) {
     // backBtn.style.display = "initial";
     firebase.database().ref(`classWork/${localStor}`).on("child_added", (data) => {
 
-        console.log("postTime is ==>",data.val().postTime);
+
         var postTime = new Date(data.val().postTime);
-        console.log(currentClass);
+    
         className.innerHTML = localStor;
         var li = document.createElement("li");
         li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}
-        <small class="postDate">${moment(postTime).fromNow()}</small>
-        `
+        <small class="postDate">${moment(postTime).fromNow()}</small>`
+        
         var delBtn = document.createElement("img");
         var delText = document.createTextNode("Delete");
         delBtn.setAttribute("class", "img1");
@@ -147,7 +149,7 @@ if (localStor) {
         // editBtn.appendChild(editText);
         // li.appendChild(editBtn);
         list.appendChild(li);
-    })
+    });
 }
 
 
@@ -169,43 +171,43 @@ if (localStor) {
 
 
 function todo() {
-            
-        
-            var userIp = localStorage.getItem("userIp");
-            slicingIp = userIp.lastIndexOf(":");
-            userIp = userIp.slice(slicingIp+1,userIp.length);
-            var classId = document.getElementById("classId").value;
-            var text = document.getElementById("todo-item").value;
-            let database = firebase.database().ref(`classWork/${classId}`)
-        
-            if (text == "" || text === " ") {
-                database = firebase.database().ref(`classWork/${localStor}`)
-            }
-            else {
-                database = firebase.database().ref(`classWork/${classId}`)
-            }
 
-            var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-            var text1 = text.replace(exp, '<a  target="_blank" href="$1">$1</a>');
-            var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-            var replaced = text1.replace(exp2, '$1<a target="_blank" href="http://$2">$2</a>');
-        
-            let key = database.push().key;
-            // console.log("its running")
-        
-            if (text == "" || text == " ") {
-                    console.log("value cant be null");
-            }
-            else {
-                var data = {
-                    value: replaced,
-                    key: key,
-                    userIp: userIp,
-                    postTime: new Date().getTime(),
-                };
-                database.child(key).set(data);
-            }
-            document.getElementById("todo-item").value = " ";
+    var userIp = localStorage.getItem("userIp");
+    slicingIp = userIp.lastIndexOf(":");
+    userIp = userIp.slice(slicingIp + 1, userIp.length);
+    var classId = document.getElementById("classId").value;
+    var text = document.getElementById("todo-item").value;
+    let database = firebase.database().ref(`classWork/${classId}`)
+
+    if (text == "" || text === " ") {
+        database = firebase.database().ref(`classWork/${localStor}`)
+    }
+    else {
+        database = firebase.database().ref(`classWork/${classId}`)
+    }
+
+    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    var text1 = text.replace(exp, '<a  target="_blank" href="$1">$1</a>');
+    var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    var replaced = text1.replace(exp2, '$1<a target="_blank" href="http://$2">$2</a>');
+
+    let key = database.push().key;
+    // console.log("its running")
+
+    if (text == "" || text == " ") {
+        console.log("value cant be null");
+    }
+    else {
+        var data = {
+            value: replaced,
+            key: key,
+            userIp: userIp,
+            postTime: new Date().getTime(),
+        };
+        database.child(key).set(data);
+    }
+    document.getElementById("todo-item").value = " ";
+
 }
 
 
@@ -255,10 +257,3 @@ function deleteAll() {
 
 
 
-// dbip.getVisitorInfo().then(function (info) {
-//     if (info.isEuMember) {
-//         // Only show useful warning to visitors from EU member countries
-//         //   showCookieConsent();
-//     }
-//     console.log(info)
-// });
