@@ -78,8 +78,7 @@ const getData = () => {
 
         firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
             var postTime = new Date(data.val().postTime);
-            console.log("postTime is ==>", postTime);
-            console.log(currentClass);
+       
             className.innerHTML = classId.value;
             var li = document.createElement("li");
             li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}
