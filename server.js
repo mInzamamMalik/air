@@ -8,7 +8,9 @@ server.use(cors());
 
 
 server.get("/getIp",(req,res)=>{
-        res.send(req.connection.remoteAddress);
+
+
+        res.status(200).send(req.connection.remoteAddress);
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         console.log("ip is==> "+ip);
     })

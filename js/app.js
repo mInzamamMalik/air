@@ -8,7 +8,7 @@ var enterInput = document.getElementById("todo-item");
 var classId = document.getElementById("classId");
 var currentClass;
 var localStor;
-var userIp = "";
+
 
 
 
@@ -47,7 +47,19 @@ enterInput.addEventListener("keypress", checkKey, false)
 
 
 
+const getIp = ()=>{
+    const Url = "https://studygeeks.herokuapp.com";
+    // const Url = "http://localhost:5000";
 
+    const Http = new XMLHttpRequest();
+    Http.open("GET", Url + "/getIp");
+    Http.send();
+    Http.onreadystatechange = (e) => {
+        if (Http.readyState === 4) {
+          localStorage.setItem("userIp", Http.responseText)  
+        }
+}
+}
 
 
 const getData = () => {
@@ -154,16 +166,7 @@ if (localStor) {
 
 function todo() {
 
-    const Url = "https://studygeeks.herokuapp.com";
-    // const Url = "http://localhost:5000";
-
-    const Http = new XMLHttpRequest();
-    Http.open("GET", Url + "/getIp");
-    Http.send();
-    Http.onreadystatechange = (e) => {
-        if (Http.readyState === 4) {
-
-            userIp = Http.responseText;
+            var userIp = localStorage.getItem("userIp");
             slicingIp = userIp.lastIndexOf(":");
             userIp = userIp.slice(slicingIp+1,userIp.length);
             var classId = document.getElementById("classId").value;
@@ -198,8 +201,8 @@ function todo() {
                 database.child(key).set(data);
             }
             document.getElementById("todo-item").value = " ";
-        }
-    }
+        
+    
 }
 
 
