@@ -1,4 +1,5 @@
-
+// const Url = "https://studygeeks.herokuapp.com";
+const Url = "http://localhost:5000";
 var list = document.getElementById("list")
 var className = document.getElementById("class-name");
 var errorMessage = document.getElementById("error");
@@ -48,8 +49,7 @@ enterInput.addEventListener("keypress", checkKey, false)
 
 
 const getIp = () => {
-    const Url = "https://studygeeks.herokuapp.com";
-    // const Url = "http://localhost:5000";
+
 
     const Http = new XMLHttpRequest();
     Http.open("GET", Url + "/getIp");
@@ -78,12 +78,26 @@ const getData = () => {
 
         firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
             var postTime = new Date(data.val().postTime);
-       
+
             className.innerHTML = classId.value;
             var li = document.createElement("li");
-            li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}
-            <small class="postDate">${moment(postTime).fromNow()}</small>`
-
+            if (data.val().value.includes("webmobile")) {
+                className.innerHTML = localStor;
+                var li = document.createElement("li");
+                li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+            <a href="${data.val().value}">  <img width="20px" src="${data.val().value}"> </a>
+                <small class="postDate">${moment(postTime).fromNow()}</small>`
+            }
+            else {
+                className.innerHTML = localStor;
+                var li = document.createElement("li");
+                li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                <p class="postValue">${data.val().value}</p>
+                <small class="postDate">${moment(postTime).fromNow()}</small>
+            <img class="img1 postValue" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                
+                `
+            }
 
 
 
@@ -91,15 +105,15 @@ const getData = () => {
 
             // Add Button Delete
 
-            var delBtn = document.createElement("img");
-            var delText = document.createTextNode("Delete");
-            delBtn.setAttribute("class", "img1");
-            delBtn.setAttribute("src", "./images/delete.png");
-            delBtn.setAttribute("onclick", "deleteItem(this)");
-            delBtn.setAttribute("id", data.val().key);
+            // var delBtn = document.createElement("img");
+            // var delText = document.createTextNode("Delete");
+            // delBtn.setAttribute("class", "img1");
+            // delBtn.setAttribute("src", "./images/delete.png");
+            // delBtn.setAttribute("onclick", "deleteItem(this)");
+            // delBtn.setAttribute("id", data.val().key);
 
-            delBtn.appendChild(delText);
-            li.appendChild(delBtn);
+            // delBtn.appendChild(delText);
+            // li.appendChild(delBtn);
 
 
 
@@ -126,87 +140,122 @@ if (localStor) {
     itemBtn.style.backgroundColor = "white";
     // backBtn.style.display = "initial";
     firebase.database().ref(`classWork/${localStor}`).on("child_added", (data) => {
-
-
         var postTime = new Date(data.val().postTime);
+
+        if (data.val().value.includes("webmobile")) {
+            className.innerHTML = localStor;
+            var li = document.createElement("li");
+            li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+            <a target="_blank" href="${data.val().value}">  <img class="postValue" width="20px" src="${data.val().value}"> </a>
+                <small class="postDate">${moment(postTime).fromNow()}</small>
+            <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                
+                `
+        }
+        else {
+            className.innerHTML = localStor;
+            var li = document.createElement("li");
+            li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+            
+            <p class="postValue">${data.val().value}</p>
     
-        className.innerHTML = localStor;
-        var li = document.createElement("li");
-        li.innerHTML = `<small class="userIp">${data.val().userIp} </small> ${data.val().value}
-        <small class="postDate">${moment(postTime).fromNow()}</small>`
-        
-        var delBtn = document.createElement("img");
-        var delText = document.createTextNode("Delete");
-        delBtn.setAttribute("class", "img1");
-        delBtn.setAttribute("src", "./images/delete.png");
-        delBtn.setAttribute("onclick", "deleteItem(this)");
-        delBtn.setAttribute("id", data.val().key);
+            <small class="postDate">${moment(postTime).fromNow()}</small>
+            <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+            `
+        }
 
-        delBtn.appendChild(delText);
-        li.appendChild(delBtn);
 
-        // editBtn.appendChild(editText);
-        // li.appendChild(editBtn);
+
+        // var delBtn = document.createElement("img");
+        // var delText = document.createTextNode("Delete");
+        // delBtn.setAttribute("class", "img1");
+        // delBtn.setAttribute("src", "./images/delete.png");
+        // delBtn.setAttribute("onclick", "deleteItem(this)");
+        // delBtn.setAttribute("id", data.val().key);
+
+        // delBtn.appendChild(delText);
+        // li.appendChild(delBtn);
+
         list.appendChild(li);
     });
 }
 
 
 
-// const deleteCurrClass = () => {
-
-//     console.log("its running")
-//     itemBtn.style.display = "none";
-//     deleteBtn.style.display = "none";
-//     enterInput.style.display = "none";
-//     backBtn.style.display = "none";
-//     classId.style.display = "initial";
-//     addBtn.style.display = "initial";
-//     window.localStorage.removeItem('currentClass');
-//     localStor = undefined;
-//     list.innerHTML = " "
-// }
 
 
 
 function todo() {
-
+    var fileInput = document.getElementById("fileInput");
+    let database = firebase.database().ref(`classWork/${classId}`)
     var userIp = localStorage.getItem("userIp");
     slicingIp = userIp.lastIndexOf(":");
     userIp = userIp.slice(slicingIp + 1, userIp.length);
     var classId = document.getElementById("classId").value;
-    var text = document.getElementById("todo-item").value;
-    let database = firebase.database().ref(`classWork/${classId}`)
-
-    if (text == "" || text === " ") {
+    var TodoValue = document.getElementById("todo-item").value;
+    if (TodoValue == "" || TodoValue === " ") {
         database = firebase.database().ref(`classWork/${localStor}`)
     }
     else {
         database = firebase.database().ref(`classWork/${classId}`)
     }
 
-    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-    var text1 = text.replace(exp, '<a  target="_blank" href="$1">$1</a>');
-    var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-    var replaced = text1.replace(exp2, '$1<a target="_blank" href="http://$2">$2</a>');
+    if (!fileInput.value) {
+        if (document.getElementById("todo-item").value=== "" || document.getElementById("todo-item").value === " ") {
+        }
+        else {
+            todoValue = convertToLink(TodoValue)
+            let key = database.push().key;
+            var data = {
+                value: todoValue,
+                key: key,
+                userIp: userIp,
+                postTime: new Date().getTime(),
+            };
+            database.child(key).set(data);
+            document.getElementById("todo-item").value = "";
+        }
 
-    let key = database.push().key;
-    // console.log("its running")
-
-    if (text == "" || text == " ") {
-        console.log("value cant be null");
     }
     else {
-        var data = {
-            value: replaced,
-            key: key,
-            userIp: userIp,
-            postTime: new Date().getTime(),
-        };
-        database.child(key).set(data);
-    }
-    document.getElementById("todo-item").value = " ";
+        let formData = new FormData();
+        console.log("form part is running ==> ",)
+        formData.append("myFile", fileInput.files[0]);
 
+        axios({
+            method: 'post',
+            url: Url + "/upload",
+            data: formData,
+            headers: { 'Content-Type': 'multipart/form-data' }
+        })
+            .then(res => {
+
+                let key = database.push().key;
+                console.log("res data is ==> ", res.data.url);
+                var data = {
+                    value: res.data.url,
+                    key: key,
+                    userIp: userIp,
+                    postTime: new Date().getTime(),
+                };
+                database.child(key).set(data);
+                document.getElementById("todo-item").value = "";
+                console.log("Posted image succesfully , ", res.data);
+
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+    return false;
+}
+
+function convertToLink(text) {
+    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    var text1 = text.replace(exp, '<a  class="valueLink" target="_blank" href="$1">$1</a>');
+    var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    var replaced = text1.replace(exp2, '$1<a target="_blank" href="http://$2">$2</a>');
+    return replaced
 }
 
 
@@ -251,7 +300,6 @@ function deleteAll() {
     else {
         alert("you have no access to delete this, wrong password")
     }
-
 }
 
 
