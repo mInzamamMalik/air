@@ -201,7 +201,7 @@ function todo() {
     }
 
     if (!fileInput.value) {
-        if (document.getElementById("todo-item").value=== "" || document.getElementById("todo-item").value === " ") {
+        if (document.getElementById("todo-item").value === "" || document.getElementById("todo-item").value === " ") {
         }
         else {
             todoValue = convertToLink(TodoValue)
@@ -231,17 +231,19 @@ function todo() {
             .then(res => {
 
                 let key = database.push().key;
-                console.log("res data is ==> ", res.data.url);
+                // console.log("res data is ==> ", res.data.url);
                 var data = {
                     value: res.data.url,
                     key: key,
                     userIp: userIp,
                     postTime: new Date().getTime(),
                 };
+                console.log("file is => ", fileInput.value)
                 database.child(key).set(data);
                 document.getElementById("todo-item").value = "";
                 console.log("Posted image succesfully , ", res.data);
-
+                document.getElementById("fileInput").value = null;
+                console.log("now file is==> " , fileInput.value);
             })
             .catch(err => {
                 console.log(err);
