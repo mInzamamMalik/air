@@ -85,7 +85,7 @@ const getData = () => {
                 className.innerHTML = localStor;
                 var li = document.createElement("li");
                 li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
-            <a href="${data.val().value}">  <img width="20px" src="${data.val().value}"> </a>
+            <a href="${data.val().value}">  <img class="postValue" width="70px"  src="${data.val().value}"> </a>
                 <small class="postDate">${moment(postTime).fromNow()}</small>`
             }
             else {
@@ -146,7 +146,7 @@ if (localStor) {
             className.innerHTML = localStor;
             var li = document.createElement("li");
             li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
-            <a target="_blank" href="${data.val().value}">  <img class="postValue" width="20px" src="${data.val().value}"> </a>
+            <a target="_blank" href="${data.val().value}">  <img class="postValue" width="70px"  src="${data.val().value}"> </a>
                 <small class="postDate">${moment(postTime).fromNow()}</small>
             <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                 
