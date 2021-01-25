@@ -86,7 +86,7 @@ const getData = () => {
                     className.innerHTML = localStor;
                     var li = document.createElement("li");
                     li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
-                    <a href="${data.val().value}">  <img class="postValue" width="32px"  src="images/zip.png"> </a>
+                    <a href="${data.val().value}" target="_blank">  <img class="postValue" width="32px"  src="images/zip.png"> </a>
                         <small class="postDate">${moment(postTime).fromNow()}</small>
                         <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                         `
@@ -96,7 +96,7 @@ const getData = () => {
                     className.innerHTML = localStor;
                     var li = document.createElement("li");
                     li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
-                    <a href="${data.val().value}">  <img class="postValue" width="32px"  src="images/document.png"> </a>
+                    <a href="${data.val().value}" target="_blank">  <img class="postValue" width="32px"  src="images/document.png"> </a>
                         <small class="postDate">${moment(postTime).fromNow()}</small>
                         <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                         `
@@ -105,7 +105,7 @@ const getData = () => {
                     className.innerHTML = localStor;
                     var li = document.createElement("li");
                     li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
-                <a href="${data.val().value}">  <img class="postValue" width="70px"  src="${data.val().value}"> </a>
+                <a href="${data.val().value}" target="_blank">  <img class="postValue" width="70px"  src="${data.val().value}"> </a>
                     <small class="postDate">${moment(postTime).fromNow()}</small>
                     <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                     
@@ -172,7 +172,7 @@ if (localStor) {
                 className.innerHTML = localStor;
                 var li = document.createElement("li");
                 li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
-                <a href="${data.val().value}">  <img class="postValue" width="32px"  src="images/zip.png"> </a>
+                <a href="${data.val().value}" target="_blank">  <img class="postValue" width="32px"  src="images/zip.png"> </a>
                     <small class="postDate">${moment(postTime).fromNow()}</small>
                     <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                     `
@@ -182,7 +182,7 @@ if (localStor) {
                 className.innerHTML = localStor;
                 var li = document.createElement("li");
                 li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
-                <a href="${data.val().value}">  <img class="postValue" width="32px"  src="images/document.png"> </a>
+                <a href="${data.val().value}" target="_blank">  <img class="postValue" width="32px"  src="images/document.png"> </a>
                     <small class="postDate">${moment(postTime).fromNow()}</small>
                     <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                     `
@@ -190,7 +190,7 @@ if (localStor) {
             else {
                 className.innerHTML = localStor;
                 var li = document.createElement("li");
-                li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                li.innerHTML = `<small class="userIp" target="_blank">${data.val().userIp} </small> 
             <a href="${data.val().value}">  <img class="postValue" width="70px"  src="${data.val().value}"> </a>
                 <small class="postDate">${moment(postTime).fromNow()}</small>
                 <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
