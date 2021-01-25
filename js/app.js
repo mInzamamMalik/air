@@ -1,5 +1,5 @@
-const Url = "https://studygeeks.herokuapp.com";
-// const Url = "http://localhost:5000";
+// const Url = "https://studygeeks.herokuapp.com";
+const Url = "http://localhost:5000";
 var list = document.getElementById("list")
 var className = document.getElementById("class-name");
 var errorMessage = document.getElementById("error");
@@ -267,7 +267,7 @@ function todo() {
         let formData = new FormData();
         console.log("form part is running ==> ",)
         formData.append("myFile", fileInput.files[0]);
-
+        document.getElementById("todo-item").classList.add("hide");
         axios({
             method: 'post',
             url: Url + "/upload",
@@ -275,6 +275,7 @@ function todo() {
             headers: { 'Content-Type': 'multipart/form-data' }
         })
             .then(res => {
+        document.getElementById("todo-item").classList.remove("hide");
 
                 let key = database.push().key;
                 // console.log("res data is ==> ", res.data.url);
@@ -292,6 +293,8 @@ function todo() {
                 console.log("now file is==> ", fileInput.value);
             })
             .catch(err => {
+        document.getElementById("todo-item").classList.remove("hide");
+
                 console.log(err);
             })
     }
