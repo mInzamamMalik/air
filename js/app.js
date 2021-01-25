@@ -82,11 +82,36 @@ const getData = () => {
             className.innerHTML = classId.value;
             var li = document.createElement("li");
             if (data.val().value.includes("webmobile")) {
-                className.innerHTML = localStor;
-                var li = document.createElement("li");
-                li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
-            <a href="${data.val().value}">  <img class="postValue" width="70px"  src="${data.val().value}"> </a>
-                <small class="postDate">${moment(postTime).fromNow()}</small>`
+                if (data.val().value.includes("zip") || data.val().value.includes("rar")) {
+                    className.innerHTML = localStor;
+                    var li = document.createElement("li");
+                    li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                    <a href="${data.val().value}">  <img class="postValue" width="32px"  src="images/zip.png"> </a>
+                        <small class="postDate">${moment(postTime).fromNow()}</small>
+                        <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                        `
+                }
+                else if (data.val().value.includes("doc") || data.val().value.includes("docx") || data.val().value.includes("pdf") || data.val().value.includes("txt") )
+                {
+                    className.innerHTML = localStor;
+                    var li = document.createElement("li");
+                    li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                    <a href="${data.val().value}">  <img class="postValue" width="32px"  src="images/document.png"> </a>
+                        <small class="postDate">${moment(postTime).fromNow()}</small>
+                        <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                        `
+                }
+                else {
+                    className.innerHTML = localStor;
+                    var li = document.createElement("li");
+                    li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                <a href="${data.val().value}">  <img class="postValue" width="70px"  src="${data.val().value}"> </a>
+                    <small class="postDate">${moment(postTime).fromNow()}</small>
+                    <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                    
+                    `
+                }
+
             }
             else {
                 className.innerHTML = localStor;
@@ -143,14 +168,35 @@ if (localStor) {
         var postTime = new Date(data.val().postTime);
 
         if (data.val().value.includes("webmobile")) {
-            className.innerHTML = localStor;
-            var li = document.createElement("li");
-            li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
-            <a target="_blank" href="${data.val().value}">  <img class="postValue" width="70px"  src="${data.val().value}"> </a>
+            if (data.val().value.includes("zip") || data.val().value.includes("rar")) {
+                className.innerHTML = localStor;
+                var li = document.createElement("li");
+                li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                <a href="${data.val().value}">  <img class="postValue" width="32px"  src="images/zip.png"> </a>
+                    <small class="postDate">${moment(postTime).fromNow()}</small>
+                    <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                    `
+            }
+            else if (data.val().value.includes("doc") || data.val().value.includes("docx") || data.val().value.includes("pdf") || data.val().value.includes("txt") )
+            {
+                className.innerHTML = localStor;
+                var li = document.createElement("li");
+                li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                <a href="${data.val().value}">  <img class="postValue" width="32px"  src="images/document.png"> </a>
+                    <small class="postDate">${moment(postTime).fromNow()}</small>
+                    <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                    `
+            }
+            else {
+                className.innerHTML = localStor;
+                var li = document.createElement("li");
+                li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+            <a href="${data.val().value}">  <img class="postValue" width="70px"  src="${data.val().value}"> </a>
                 <small class="postDate">${moment(postTime).fromNow()}</small>
-            <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
-                
+                <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                 `
+            }
+
         }
         else {
             className.innerHTML = localStor;
@@ -243,7 +289,7 @@ function todo() {
                 document.getElementById("todo-item").value = "";
                 console.log("Posted image succesfully , ", res.data);
                 document.getElementById("fileInput").value = null;
-                console.log("now file is==> " , fileInput.value);
+                console.log("now file is==> ", fileInput.value);
             })
             .catch(err => {
                 console.log(err);
