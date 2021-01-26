@@ -119,7 +119,7 @@ const getData = () => {
                 li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
                 <p class="postValue">${data.val().value}</p>
                 <small class="postDate">${moment(postTime).fromNow()}</small>
-            <img class="img1 postValue" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+            <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                 
                 `
             }
