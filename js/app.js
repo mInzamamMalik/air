@@ -91,12 +91,21 @@ const getData = () => {
                         <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                         `
                 }
-                else if (data.val().value.includes("doc") || data.val().value.includes("docx") || data.val().value.includes("pdf") || data.val().value.includes("txt") )
-                {
+                else if (data.val().value.includes("doc") || data.val().value.includes("docx") || data.val().value.includes("txt")) {
                     className.innerHTML = localStor;
                     var li = document.createElement("li");
                     li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
                     <a href="${data.val().value}" target="_blank">  <img class="postValue" width="32px"  src="images/document.png"> </a>
+                        <small class="postDate">${moment(postTime).fromNow()}</small>
+                        <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                        `
+                }
+                else if (data.val().value.includes("pdf"))
+                {
+                    className.innerHTML = localStor;
+                    var li = document.createElement("li");
+                    li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                    <a href="${data.val().value}" target="_blank">  <img class="postValue" width="32px"  src="images/pdf.png"> </a>
                         <small class="postDate">${moment(postTime).fromNow()}</small>
                         <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                         `
@@ -177,8 +186,7 @@ if (localStor) {
                     <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                     `
             }
-            else if (data.val().value.includes("doc") || data.val().value.includes("docx") || data.val().value.includes("pdf") || data.val().value.includes("txt") )
-            {
+            else if (data.val().value.includes("doc") || data.val().value.includes("docx") || data.val().value.includes("txt")) {
                 className.innerHTML = localStor;
                 var li = document.createElement("li");
                 li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
@@ -187,11 +195,21 @@ if (localStor) {
                     <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                     `
             }
+            else if (data.val().value.includes("pdf"))
+            {
+                className.innerHTML = localStor;
+                var li = document.createElement("li");
+                li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                <a href="${data.val().value}" target="_blank">  <img class="postValue" width="32px"  src="images/pdf.png"> </a>
+                    <small class="postDate">${moment(postTime).fromNow()}</small>
+                    <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                    `
+            }
             else {
                 className.innerHTML = localStor;
                 var li = document.createElement("li");
-                li.innerHTML = `<small class="userIp" target="_blank">${data.val().userIp} </small> 
-            <a href="${data.val().value}">  <img class="postValue" width="70px"  src="${data.val().value}"> </a>
+                li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+            <a href="${data.val().value}" target="_blank">  <img class="postValue" width="70px"  src="${data.val().value}"> </a>
                 <small class="postDate">${moment(postTime).fromNow()}</small>
                 <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
                 `
@@ -264,6 +282,7 @@ function todo() {
 
     }
     else {
+        document.getElementById("fileinputimage").src = `./images/loader.gif`;
         let formData = new FormData();
         console.log("form part is running ==> ",)
         formData.append("myFile", fileInput.files[0]);
@@ -275,7 +294,8 @@ function todo() {
             headers: { 'Content-Type': 'multipart/form-data' }
         })
             .then(res => {
-        document.getElementById("todo-item").classList.remove("hide");
+                document.getElementById("fileinputimage").src = `./images/upload.png`;
+                document.getElementById("todo-item").classList.remove("hide");
 
                 let key = database.push().key;
                 // console.log("res data is ==> ", res.data.url);
@@ -293,7 +313,8 @@ function todo() {
                 console.log("now file is==> ", fileInput.value);
             })
             .catch(err => {
-        document.getElementById("todo-item").classList.remove("hide");
+                document.getElementById("todo-item").classList.remove("hide");
+                document.getElementById("fileinputimage").src = `./images/upload.png`;
 
                 console.log(err);
             })
