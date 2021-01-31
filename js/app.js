@@ -45,7 +45,6 @@ const getData = () => {
     var classId = document.getElementById("classId")
     list.innerHTML = " ";
     if (classId.value) {
-        counter++;
         localStorage.setItem("currentClass", JSON.stringify(classId.value));
         itemBtn.disabled = false;
         deleteBtn.disabled = false;
@@ -58,17 +57,16 @@ const getData = () => {
         fireBaseData(classId.value);
         enterInput.focus();
     }
-    else {
-        if (localStor) {
-            fireBaseData(localStor)
-        }
-    }
     return false;
 
 }
 
+if (localStor) {
+    fireBaseData(localStor)
+}
 
-const fireBaseData = (firebaseid) => {
+
+function fireBaseData(firebaseid){
 
     classId.value = firebaseid;
     itemBtn.disabled = false;
@@ -156,7 +154,6 @@ const fireBaseData = (firebaseid) => {
 function todo() {
     var classId = document.getElementById("classId")
     if (classId.value === "") {
-
     }
     else {
         className.innerHTML = classId.value;
@@ -166,7 +163,7 @@ function todo() {
         slicingIp = userIp.lastIndexOf(":");
         userIp = userIp.slice(slicingIp + 1, userIp.length);
         var TodoValue = document.getElementById("todo-item").value;
-   
+
         if (!fileInput.value) {
             if (document.getElementById("todo-item").value === "" || document.getElementById("todo-item").value === " ") {
             }
