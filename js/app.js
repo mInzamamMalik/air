@@ -45,7 +45,7 @@ const getData = () => {
     var classId = document.getElementById("classId")
     list.innerHTML = " ";
     if (classId.value) {
-
+        counter++;
         localStorage.setItem("currentClass", JSON.stringify(classId.value));
         itemBtn.disabled = false;
         deleteBtn.disabled = false;
@@ -161,18 +161,12 @@ function todo() {
     else {
         className.innerHTML = classId.value;
         var fileInput = document.getElementById("fileInput");
-        let database = firebase.database().ref(`classWork/${classId.value}`)
+        let database = firebase.database().ref(`classWork/${classId.value}`);
         var userIp = localStorage.getItem("userIp");
         slicingIp = userIp.lastIndexOf(":");
         userIp = userIp.slice(slicingIp + 1, userIp.length);
         var TodoValue = document.getElementById("todo-item").value;
-        if (TodoValue == "" || TodoValue === " ") {
-            database = firebase.database().ref(`classWork/${localStor}`)
-        }
-        else {
-            database = firebase.database().ref(`classWork/${classId.value}`)
-        }
-
+   
         if (!fileInput.value) {
             if (document.getElementById("todo-item").value === "" || document.getElementById("todo-item").value === " ") {
             }
