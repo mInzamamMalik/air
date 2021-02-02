@@ -1,12 +1,14 @@
 const Url = "https://studygeeks.herokuapp.com";
 // const Url = "http://localhost:5000";
 var list = document.getElementById("list")
+var className = document.getElementById("class-name");
 var errorMessage = document.getElementById("error");
 var itemBtn = document.getElementById("itemBtn");
 var deleteBtn = document.getElementById("deleteBtn");
 var enterInput = document.getElementById("todo-item");
-var className = document.getElementById("class-name");
+var classId = document.getElementById("classId");
 var currentClass;
+var localStor;
 
 
 
@@ -19,16 +21,36 @@ itemBtn.style.backgroundColor = "#dddddd";
 enterInput.disabled = true;
 // backBtn.style.display = "none";
 
-var localStor = JSON.parse(localStorage.getItem("currentClass"));
 
 var addBtn = document.getElementById("addName");
+localStor = JSON.parse(localStorage.getItem("currentClass"));
+
+const checkKeyPress = (key) => {
+
+    if (key.keyCode === 13) {
+        getData();
+        // console.log("fault in this");
+    }
+}
+
+const checkKey = (key) => {
+
+    if (key.keyCode === 13) {
+
+        todo();
 
 
+    }
+}
 
+classId.addEventListener("focus", checkKeyPress, false)
+enterInput.addEventListener("keypress", checkKey, false)
 
 
 
 const getIp = () => {
+
+
     const Http = new XMLHttpRequest();
     Http.open("GET", Url + "/getIp");
     Http.send();
@@ -40,35 +62,108 @@ const getIp = () => {
 }
 
 
-
 const getData = () => {
-    var classId = document.getElementById("classId")
-    list.innerHTML = " ";
-    if (classId.value) {
-        localStorage.setItem("currentClass", JSON.stringify(classId.value));
-        itemBtn.disabled = false;
-        deleteBtn.disabled = false;
-        enterInput.disabled = false;
-        deleteBtn.style.backgroundColor = "white";
-        itemBtn.style.backgroundColor = "white";
-        errorMessage.style.display = "none";
-        currentClass = classId.value;
-        className.innerHTML = classId.value;
-        fireBaseData(classId.value);
-        enterInput.focus();
-    }
-    return false;
 
+    localStorage.setItem("currentClass", JSON.stringify(classId.value));
+    itemBtn.disabled = false;
+    deleteBtn.disabled = false;
+    enterInput.disabled = false;
+    deleteBtn.style.backgroundColor = "white";
+    itemBtn.style.backgroundColor = "white";
+    errorMessage.style.display = "none";
+    currentClass = classId.value;
+    list.innerHTML = " ";
+
+    if (localStor !== false) {
+
+        firebase.database().ref(`classWork/${classId.value}`).on("child_added", (data) => {
+            var postTime = new Date(data.val().postTime);
+
+            className.innerHTML = classId.value;
+            var li = document.createElement("li");
+            if (data.val().value.includes("webmobile")) {
+                if (data.val().value.includes("zip") || data.val().value.includes("rar")) {
+                    className.innerHTML = localStor;
+                    var li = document.createElement("li");
+                    li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                    <a href="${data.val().value}" target="_blank">  <img class="postValue" width="32px"  src="images/zip.png"> </a>
+                        <small class="postDate">${moment(postTime).fromNow()}</small>
+                        <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                        `
+                }
+                else if (data.val().value.includes("doc") || data.val().value.includes("docx") || data.val().value.includes("txt")) {
+                    className.innerHTML = localStor;
+                    var li = document.createElement("li");
+                    li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                    <a href="${data.val().value}" target="_blank">  <img class="postValue" width="32px"  src="images/document.png"> </a>
+                        <small class="postDate">${moment(postTime).fromNow()}</small>
+                        <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                        `
+                }
+                else if (data.val().value.includes("pdf")) {
+                    className.innerHTML = localStor;
+                    var li = document.createElement("li");
+                    li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                    <a href="${data.val().value}" target="_blank">  <img class="postValue" width="32px"  src="images/pdf.png"> </a>
+                        <small class="postDate">${moment(postTime).fromNow()}</small>
+                        <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                        `
+                }
+                else {
+                    className.innerHTML = localStor;
+                    var li = document.createElement("li");
+                    li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                <a href="${data.val().value}" target="_blank">  <img class="postValue" width="70px"  src="${data.val().value}"> </a>
+                    <small class="postDate">${moment(postTime).fromNow()}</small>
+                    <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                    
+                    `
+                }
+
+            }
+            else {
+                className.innerHTML = localStor;
+                var li = document.createElement("li");
+                li.innerHTML = `<small class="userIp">${data.val().userIp} </small> 
+                <p class="postValue">${data.val().value}</p>
+                <small class="postDate">${moment(postTime).fromNow()}</small>
+            <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
+                
+                `
+            }
+
+
+
+
+
+            // Add Button Delete
+
+            // var delBtn = document.createElement("img");
+            // var delText = document.createTextNode("Delete");
+            // delBtn.setAttribute("class", "img1");
+            // delBtn.setAttribute("src", "./images/delete.png");
+            // delBtn.setAttribute("onclick", "deleteItem(this)");
+            // delBtn.setAttribute("id", data.val().key);
+
+            // delBtn.appendChild(delText);
+            // li.appendChild(delBtn);
+
+
+
+            // editBtn.appendChild(editText);
+            // li.appendChild(editBtn);
+            list.appendChild(li);
+
+        })
+    }
+
+    enterInput.focus();
 }
+
+
 
 if (localStor) {
-    fireBaseData(localStor)
-}
-
-
-function fireBaseData(firebaseid){
-
-    classId.value = firebaseid;
+    classId.value = localStor;
     itemBtn.disabled = false;
     deleteBtn.disabled = false;
     enterInput.disabled = false;
@@ -77,12 +172,9 @@ function fireBaseData(firebaseid){
     deleteBtn.style.backgroundColor = "white";
     itemBtn.style.backgroundColor = "white";
     // backBtn.style.display = "initial";
-    // var myData = firebase.database().ref(`classWork/${classId.value}`).once("value" , (data) =>{
-    //     console.log(data.val());
-    // });
-
-    firebase.database().ref(`classWork/${firebaseid}`).on("child_added", (data) => {
+    firebase.database().ref(`classWork/${localStor}`).on("child_added", (data) => {
         var postTime = new Date(data.val().postTime);
+
         if (data.val().value.includes("webmobile")) {
             if (data.val().value.includes("zip") || data.val().value.includes("rar")) {
                 className.innerHTML = localStor;
@@ -151,72 +243,76 @@ function fireBaseData(firebaseid){
 }
 
 
+
+
+
+
 function todo() {
     var classId = document.getElementById("classId")
-    if (classId.value === "") {
+    var fileInput = document.getElementById("fileInput");
+    let database = firebase.database().ref(`classWork/${classId.value}`)
+    console.log("class id is = > ",classId.value)
+    var userIp = localStorage.getItem("userIp");
+    slicingIp = userIp.lastIndexOf(":");
+    userIp = userIp.slice(slicingIp + 1, userIp.length);
+    var classId = document.getElementById("classId").value;
+    var TodoValue = document.getElementById("todo-item").value;
+
+    if (!fileInput.value) {
+        if (document.getElementById("todo-item").value === "" || document.getElementById("todo-item").value === " ") {
+        }
+        else {
+            todoValue = convertToLink(TodoValue)
+            let key = database.push().key;
+            var data = {
+                value: todoValue,
+                key: key,
+                userIp: userIp,
+                postTime: new Date().getTime(),
+            };
+            database.child(key).set(data);
+            document.getElementById("todo-item").value = "";
+        }
+
     }
     else {
-        className.innerHTML = classId.value;
-        var fileInput = document.getElementById("fileInput");
-        let database = firebase.database().ref(`classWork/${classId.value}`);
-        var userIp = localStorage.getItem("userIp");
-        slicingIp = userIp.lastIndexOf(":");
-        userIp = userIp.slice(slicingIp + 1, userIp.length);
-        var TodoValue = document.getElementById("todo-item").value;
+        document.getElementById("fileinputimage").src = `./images/loader.gif`;
+        let formData = new FormData();
+        console.log("form part is running ==> ",)
+        formData.append("myFile", fileInput.files[0]);
+        document.getElementById("todo-item").classList.add("hide");
+        axios({
+            method: 'post',
+            url: Url + "/upload",
+            data: formData,
+            headers: { 'Content-Type': 'multipart/form-data' }
+        })
+            .then(res => {
+                document.getElementById("fileinputimage").src = `./images/upload.png`;
+                document.getElementById("todo-item").classList.remove("hide");
 
-        if (!fileInput.value) {
-            if (document.getElementById("todo-item").value === "" || document.getElementById("todo-item").value === " ") {
-            }
-            else {
-                todoValue = convertToLink(TodoValue)
                 let key = database.push().key;
+                // console.log("res data is ==> ", res.data.url);
                 var data = {
-                    value: todoValue,
+                    value: res.data.url,
                     key: key,
                     userIp: userIp,
                     postTime: new Date().getTime(),
                 };
+                console.log("file is => ", fileInput.value)
                 database.child(key).set(data);
                 document.getElementById("todo-item").value = "";
-            }
-
-        }
-        else {
-            document.getElementById("fileinputimage").src = `./images/loader.gif`;
-            let formData = new FormData();
-
-            formData.append("myFile", fileInput.files[0]);
-            document.getElementById("todo-item").classList.add("hide");
-            axios({
-                method: 'post',
-                url: Url + "/upload",
-                data: formData,
-                headers: { 'Content-Type': 'multipart/form-data' }
+                console.log("Posted image succesfully , ", res.data);
+                document.getElementById("fileInput").value = null;
+                console.log("now file is==> ", fileInput.value);
             })
-                .then(res => {
-                    document.getElementById("fileinputimage").src = `./images/upload.png`;
-                    document.getElementById("todo-item").classList.remove("hide");
+            .catch(err => {
+                document.getElementById("todo-item").classList.remove("hide");
+                document.getElementById("fileinputimage").src = `./images/upload.png`;
 
-                    let key = database.push().key;
-
-                    var data = {
-                        value: res.data.url,
-                        key: key,
-                        userIp: userIp,
-                        postTime: new Date().getTime(),
-                    };
-
-                    database.child(key).set(data);
-                    document.getElementById("todo-item").value = "";
-                    document.getElementById("fileInput").value = null;
-                })
-                .catch(err => {
-                    document.getElementById("todo-item").classList.remove("hide");
-                    document.getElementById("fileinputimage").src = `./images/upload.png`;
-                })
-        }
+                console.log(err);
+            })
     }
-
     return false;
 }
 

@@ -36,16 +36,14 @@
     <script src="js/timeago.js"></script>
 </head>
 
-<body onload="getData(); getIp(); ">
+<body onload="getIp()">
     <section class="upper__section">
     <button id="deleteBtn" class="deleteButton" onclick="deleteAll()">Delete All</button>
 
     <div class="class__input">
         <h3 class="heading">Class ID</h3>
-        <form onsubmit="return getData()">
-        <input placeholder="Enter class id"  class="inputtext1" type="text" id="classId">
+        <input placeholder="Enter class id" onchange="getData();" class="inputtext1" type="text" id="classId">
         <small id="error">Enter class name to proceed</small>
-    </form>
     </div>
     <div class="buttons">
         <form action="#" onsubmit="return todo()">
