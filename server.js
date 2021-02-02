@@ -1,6 +1,7 @@
 var express = require("express");
 var cors = require("cors");
-var SERVICE_ACCOUNT = JSON.parse(process.env.SERVICE_ACCOUNT);
+// var SERVICE_ACCOUNT = JSON.parse(process.env.SERVICE_ACCOUNT);
+var SERVICE_ACCOUNT = require("./js/firebase.json");
 var BUCKET = process.env.BUCKET;
 var BUCKET_URL = process.env.BUCKET_URL;
 var server = express();
