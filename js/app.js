@@ -13,7 +13,7 @@ var localStor;
 
 
 
-// Disabling fields
+// Disabling INPUT_fields
 itemBtn.disabled = true;
 deleteBtn.disabled = true;
 deleteBtn.style.backgroundColor = "#dddddd";

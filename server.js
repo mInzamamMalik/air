@@ -1,12 +1,10 @@
+  
 var express = require("express");
 var cors = require("cors");
-// var SERVICE_ACCOUNT = JSON.parse(process.env.SERVICE_ACCOUNT);
-var SERVICE_ACCOUNT = require("./js/firebase.json");
-var BUCKET = process.env.BUCKET;
-var BUCKET_URL = process.env.BUCKET_URL;
+
+
 var server = express();
 server.use(cors());
-
 
 
 // Firebase bucket
@@ -22,13 +20,13 @@ const storage = multer.diskStorage({ // https://www.npmjs.com/package/multer#dis
     }
 })
 var upload = multer({ storage: storage })
-var serviceAccount = SERVICE_ACCOUNT;
+var serviceAccount = require("./js/firebase.json");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: BUCKET_URL,
+    databaseURL: "https://webmobile-48ab0.firebaseio.com"
 });
-const bucket = admin.storage().bucket(BUCKET);
+const bucket = admin.storage().bucket("gs://webmobile-48ab0.appspot.com");
 
 
 
