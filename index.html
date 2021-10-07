@@ -4,13 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyGeeks</title>
+
+    <!-- SEO tags -->
+    <title>Air by sysborg - Share over the air</title>
+    <meta name="description"
+        content="this app provides a new way to share your text and files over the internet, best and improved alternative of airforshare">
+    <link rel="canonical" href="http://air.sysborg.com/" />
+    <meta name=”robots” content="index, nofollow">
+
+    <!-- Social Media sharing tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Air by sysBorg | Share over the air" />
+    <meta property="og:description" content="this app provides a better way to share text and image over the air" />
+    <meta property="og:image" content="https://sysborg.com/images/sysborg-logo.jpg" />
+    <meta property="og:url" content="https://air.sysborg.com" />
+    <meta property="og:site_name" content="Air by sysBorg" />
+
+
     <link rel="stylesheet" href="./style/style.css">
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous"></script>
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
@@ -38,33 +56,33 @@
 
 <body onload="getIp()">
     <section class="upper__section">
-    <button id="deleteBtn" class="deleteButton" onclick="deleteAll()">Delete All</button>
+        <button id="deleteBtn" class="deleteButton" onclick="deleteAll()">Delete All</button>
 
-    <div class="class__input">
-        <h3 class="heading">Class ID</h3>
-        <input placeholder="Enter class id" onchange="getData();" class="inputtext1" type="text" id="classId">
-        <small id="error">Enter class name to proceed</small>
-    </div>
-    <div class="buttons">
-        <form action="#" onsubmit="return todo()">
-            <div class="image-upload">
-                <label for="file-input">
-                    <img id="fileinputimage" width="32px" class="fileinputimage"src="./images/upload.png"/>
-                </label>
-                <input id="fileInput" accept="image/*" onchange="todo()" type="file"/>
-            </div>
-        <input placeholder="Enter any text or link" class="inputtext" type="text" id="todo-item">
-        <button id="itemBtn" class="myButton">Add-Item</button>
-    </form>
-    </div>
-</section>
+        <div class="class__input">
+            <h3 class="heading">Class ID</h3>
+            <input placeholder="Enter class id" onchange="getData();" class="inputtext1" type="text" id="classId">
+            <small id="error">Enter class name to proceed</small>
+        </div>
+        <div class="buttons">
+            <form action="#" onsubmit="return todo()">
+                <div class="image-upload">
+                    <label for="file-input">
+                        <img id="fileinputimage" width="32px" class="fileinputimage" src="./images/upload.png" />
+                    </label>
+                    <input id="fileInput" accept="image/*" onchange="todo()" type="file" />
+                </div>
+                <input placeholder="Enter any text or link" class="inputtext" type="text" id="todo-item">
+                <button id="itemBtn" class="myButton">Add-Item</button>
+            </form>
+        </div>
+    </section>
     <div id="main">
-  
+
 
         <div class="design">
-<div class="class__name">
-            <h5 id="class-name" style="display:inline;color:rgb(139, 135, 135);"><b>Class Name</b></h5>
-        </div>
+            <div class="class__name">
+                <h5 id="class-name" style="display:inline;color:rgb(139, 135, 135);"><b>Class Name</b></h5>
+            </div>
             <ul id="list">
             </ul>
         </div>
