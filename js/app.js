@@ -251,7 +251,7 @@ function todo() {
     var classId = document.getElementById("classId")
     var fileInput = document.getElementById("fileInput");
     let database = firebase.database().ref(`classWork/${classId.value}`)
-    console.log("class id is = > ",classId.value)
+    console.log("class id is = > ", classId.value)
     var userIp = localStorage.getItem("userIp");
     slicingIp = userIp.lastIndexOf(":");
     userIp = userIp.slice(slicingIp + 1, userIp.length);

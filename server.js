@@ -1,4 +1,4 @@
-  
+
 var express = require("express");
 var cors = require("cors");
 
@@ -30,15 +30,15 @@ const bucket = admin.storage().bucket("gs://webmobile-48ab0.appspot.com");
 
 
 
-server.get("/getIp",(req,res)=>{
+server.get("/getIp", (req, res) => {
     res.status(200).send(req.connection.remoteAddress);
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    console.log("ip is==> "+ip);
+    console.log("ip is==> " + ip);
 })
 
-server.post("/upload", upload.any(), (req, res, next) => {  
+server.post("/upload", upload.any(), (req, res, next) => {
 
- 
+
     bucket.upload(
         req.files[0].path,
         function (err, file, apiResponse) {
@@ -49,13 +49,13 @@ server.post("/upload", upload.any(), (req, res, next) => {
                     expires: '03-09-2491'
                 }).then((urlData, err) => {
                     if (!err) {
-                        console.log("public downloadable url: ", urlData[0]) 
+                        console.log("public downloadable url: ", urlData[0])
 
                         res.send({
-                            url : urlData[0]
-                
+                            url: urlData[0]
+
                         });
-                         try {
+                        try {
                             fs.unlinkSync(req.files[0].path)
                             //file removed
                         } catch (err) {
@@ -63,7 +63,7 @@ server.post("/upload", upload.any(), (req, res, next) => {
                         }
                     }
                 })
-            }else{
+            } else {
                 console.log("err: ", err)
                 res.status(500).send();
             }
@@ -71,6 +71,6 @@ server.post("/upload", upload.any(), (req, res, next) => {
 })
 
 var PORT = process.env.PORT || 5000;
-server.listen(PORT, ()=>{
-    console.log("Server is running on port: "+PORT);
+server.listen(PORT, () => {
+    console.log("Server is running on port: " + PORT);
 })
