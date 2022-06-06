@@ -220,7 +220,7 @@ body {
       color: white;
 }
 
-@media (max-width:650px) {
+@media (max-width:768px) {
       .design {
             width: 95%;
       }
@@ -231,7 +231,7 @@ body {
 
 }
 
-@media (min-width:650px) {
+@media (min-width:769px) {
       .design {
             width: 65%;
       }
