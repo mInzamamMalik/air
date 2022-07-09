@@ -31,6 +31,11 @@ const bucket = admin.storage().bucket("gs://webmobile-48ab0.appspot.com");
 
 
 server.get("/getIp", (req, res) => {
+
+    // TODO: also get user pc name along with ip
+    // https://stackoverflow.com/questions/42151493/how-to-get-client-computer-name-in-node-js
+
+
     res.status(200).send(req.connection.remoteAddress);
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     console.log("ip is==> " + ip);
