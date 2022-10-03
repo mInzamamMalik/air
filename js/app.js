@@ -1,3 +1,4 @@
+
 const Url = "https://studygeeks.herokuapp.com";
 // const Url = "http://localhost:5000";
 var list = document.getElementById("list")
@@ -50,15 +51,14 @@ enterInput.addEventListener("keypress", checkKey, false)
 
 const getIp = () => {
 
-
-    const Http = new XMLHttpRequest();
-    Http.open("GET", Url + "/getIp");
-    Http.send();
-    Http.onreadystatechange = (e) => {
-        if (Http.readyState === 4) {
-            localStorage.setItem("userIp", Http.responseText)
-        }
-    }
+    axios.get(`${Url}/getIp`)
+        .then(function (response) {
+            localStorage.setItem("userIp", response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+            localStorage.setItem("userIp", "null")
+        })
 }
 
 
