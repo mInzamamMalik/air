@@ -64,7 +64,7 @@ const getIp = () => {
 
 const getData = () => {
 
-    localStorage.setItem("currentClass", JSON.stringify(classId.value));
+    localStorage.setItem("currentClass", JSON.stringify(classId.value.toLowerCase()));
     itemBtn.disabled = false;
     deleteBtn.disabled = false;
     enterInput.disabled = false;
