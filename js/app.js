@@ -50,9 +50,9 @@ enterInput.addEventListener("keypress", checkKey, false)
 
 
 const getIp = () => {
-
     axios.get(`${Url}/getIp`)
         .then(function (response) {
+            // console.log(response.data);
             localStorage.setItem("userIp", response.data)
         })
         .catch(function (error) {
@@ -60,6 +60,7 @@ const getIp = () => {
             localStorage.setItem("userIp", "null")
         })
 }
+getIp();
 
 
 const getData = () => {

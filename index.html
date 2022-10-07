@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO tags -->
-    <title>Air by sysborg - Share over the air</title>
+    <title>Shared clipboard - LAN text sharing</title>
     <meta name="description"
         content="this app provides a new way to share your text and files over the internet, best and improved alternative of airforshare">
     <link rel="canonical" href="http://air.sysborg.com/" />
-    <meta name=”robots” content="index, nofollow">
+    <meta name="robots" content="index, nofollow">
 
     <!-- Social Media sharing tags -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Air by sysBorg | Share over the air" />
+    <meta property="og:title" content="Air by sysBorg | Shared Clipboard | Share over the air" />
     <meta property="og:description" content="this app provides a better way to share text and image over the air" />
     <meta property="og:image" content="https://sysborg.com/images/sysborg-logo.jpg" />
     <meta property="og:url" content="https://air.sysborg.com" />
@@ -27,9 +27,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
-        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
-        crossorigin="anonymous"></script>
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
@@ -51,12 +48,12 @@
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script src="js/timeago.js"></script>
 </head>
 
-<body onload="getIp()">
+<body>
     <section class="upper__section">
         <button id="deleteBtn" class="deleteButton" onclick="deleteAll()">Delete All</button>
 
