@@ -26,27 +26,6 @@ enterInput.disabled = true;
 var addBtn = document.getElementById("addName");
 localStor = JSON.parse(localStorage.getItem("currentClass"));
 
-const checkKeyPress = (key) => {
-
-    if (key.keyCode === 13) {
-        getData();
-        // console.log("fault in this");
-    }
-}
-
-const checkKey = (key) => {
-
-    if (key.keyCode === 13) {
-
-        todo();
-
-
-    }
-}
-
-classId.addEventListener("focus", checkKeyPress, false)
-enterInput.addEventListener("keypress", checkKey, false)
-
 
 
 const getIp = () => {
@@ -226,18 +205,6 @@ if (localStor) {
             <img class="img1" src="./images/delete.png" id="${data.val().key}" onclick="deleteItem(this)">
             `
         }
-
-
-
-        // var delBtn = document.createElement("img");
-        // var delText = document.createTextNode("Delete");
-        // delBtn.setAttribute("class", "img1");
-        // delBtn.setAttribute("src", "./images/delete.png");
-        // delBtn.setAttribute("onclick", "deleteItem(this)");
-        // delBtn.setAttribute("id", data.val().key);
-
-        // delBtn.appendChild(delText);
-        // li.appendChild(delBtn);
 
         list.appendChild(li);
     });
