@@ -1,5 +1,5 @@
 
-const Url = "https://studygeeks.herokuapp.com";
+const Url = "https://air-production-203c.up.railway.app";
 // const Url = "http://localhost:5000";
 var list = document.getElementById("list")
 var className = document.getElementById("class-name");
